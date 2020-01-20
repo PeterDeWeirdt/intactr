@@ -153,6 +153,7 @@ plot_hit_network <- function(combo_scores, score, cutoff) {
 #' @param geneA first gene to plot
 #' @param geneB second gene to plot
 #' @param lfcs log-fold changes
+#' @export
 plot_combo_residuals <- function(geneA, geneB, lfcs, n_guides = F) {
   tidy_df <- preprocess_lfcs(lfcs, n_guides)
   base_lfcs <- calculate_base_lfcs(tidy_df)

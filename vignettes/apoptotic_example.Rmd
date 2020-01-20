@@ -20,10 +20,21 @@ library(intactr)
 
 ## Calculate genetic interaction scores for an apoptotic library screened with Cas12a
 
+The data: 
+* 22 genes involoved in apoptosis
+* 10 guides per gene
+* 20 olfactory receptor controls
+* columns gene1, guide1, guide2, control1, control2
+
 ```{r}
 knitr::kable(head(apop_combo_lfcs))
 ```
 
+We calculate score for combinations by taking the residual from a line fit to each guide. For example, here are the residual plots for all guides tragetting BCL2L1 and MCL1
+
+```{r}
+plot_combo_residuals('BCL2L1', 'MCL1', apop_combo_lfcs, 10)
+```
 
 ```{r}
 combo_scores <- calculate_anchor_residuals(apop_combo_lfcs, 10)
@@ -34,21 +45,17 @@ knitr::kable(head(combo_scores))
 plot_score_heatmap(combo_scores, 'combo_z_score')
 ```
 
+Our strongest hits include well known interactors as well as novel hits. 
+
 ```{r}
 plot_hit_network(combo_scores, 'combo_z_score', 5)
 ```
 
+One particularly interesting novel hit is the one between *WSB2* and *MARCH5*
 
 ```{r}
-plot_combo('BCL2L2', 'BCL2L1', apop_combo_lfcs)
-```
-
-```{r}
-plot_combo_residuals('UBE2J2', 'WSB2', apop_combo_lfcs, 10)
+plot_combo('WSB2', 'MARCH5', apop_combo_lfcs)
 ```
 
 
-```{r}
-avg_gene_scores <- average_gene_scores(apop_combo_lfcs)
-```
 
