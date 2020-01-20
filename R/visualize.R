@@ -185,7 +185,7 @@ plot_combo_residuals <- function(geneA, geneB, lfcs, n_guides = F) {
     facet_grid(rows = vars(gene1, context), cols = vars(guide),
                scales = 'free') +
     xlab('base_lfc')
-  return(p)
+  return(list(plot = p, plot_data = residuals_guiderank))
 }
 
 

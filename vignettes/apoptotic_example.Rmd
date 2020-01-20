@@ -35,7 +35,8 @@ knitr::kable(head(apop_combo_lfcs))
 We calculate score for combinations by taking the residual from a line fit to each guide. For example, here are the residual plots for all guides tragetting BCL2L1 and MCL1
 
 ```{r}
-plot_combo_residuals('BCL2L1', 'MCL1', apop_combo_lfcs, 10)
+plot_data <- plot_combo_residuals('BCL2L1', 'MCL1', apop_combo_lfcs, 10)
+plot_data$plot
 ```
 
 ```{r}
