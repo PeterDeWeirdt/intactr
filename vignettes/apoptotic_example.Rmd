@@ -1,0 +1,54 @@
+---
+title: "apoptotic_example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{apoptotic_example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(intactr)
+```
+
+## Calculate genetic interaction scores for an apoptotic library screened with Cas12a
+
+```{r}
+knitr::kable(head(apop_combo_lfcs))
+```
+
+
+```{r}
+combo_scores <- calculate_anchor_residuals(apop_combo_lfcs, 10)
+knitr::kable(head(combo_scores))
+```
+
+```{r}
+plot_score_heatmap(combo_scores, 'combo_z_score')
+```
+
+```{r}
+plot_hit_network(combo_scores, 'combo_z_score', 5)
+```
+
+
+```{r}
+plot_combo('BCL2L2', 'BCL2L1', apop_combo_lfcs)
+```
+
+```{r}
+plot_combo_residuals('UBE2J2', 'WSB2', apop_combo_lfcs, 10)
+```
+
+
+```{r}
+avg_gene_scores <- average_gene_scores(apop_combo_lfcs)
+```
+
