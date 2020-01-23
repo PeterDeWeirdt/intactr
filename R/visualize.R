@@ -87,17 +87,19 @@ cluster_order <- function(scores_df, score) {
 #' @param score name of the score column
 #' @export
 plot_score_heatmap <- function(combo_scores, score) {
-  gene_order <- combo_scores %>%
+  minimal_scores <- combo_scores %>%
+    select(context, genes, geneA, geneB, score)
+  gene_order <- minimal_scores %>%
     group_by(context) %>%
     tidyr::nest() %>%
     mutate(order = purrr::map(data, cluster_order, score)) %>%
     tidyr::unnest(order) %>%
     select(-data)
-  reversed_scores <- combo_scores  %>%
+  reversed_scores <- minimal_scores  %>%
     mutate(temp_geneA = geneB, temp_geneB = geneA) %>%
     select(-geneA, -geneB) %>%
     rename(geneA = temp_geneA, geneB = temp_geneB)
-  ordered_combos <- combo_scores %>%
+  ordered_combos <- minimal_scores %>%
     bind_rows(reversed_scores) %>%
     inner_join(gene_order, by = c('context', 'geneA' = 'gene')) %>%
     inner_join(gene_order, by = c('context', 'geneB' = 'gene'),
@@ -154,12 +156,14 @@ plot_hit_network <- function(combo_scores, score, cutoff) {
 #' @param geneB second gene to plot
 #' @param lfcs log-fold changes
 #' @export
-plot_combo_residuals <- function(geneA, geneB, lfcs, n_guides = F) {
+plot_combo_residuals <- function(geneA, geneB, lfcs, n_guides = F,
+                                 fit_controls = F) {
   tidy_df <- preprocess_lfcs(lfcs, n_guides)
   base_lfcs <- calculate_base_lfcs(tidy_df)
   joined_base_lfcs <- join_base_lfcs(tidy_df, base_lfcs)
   reversed_base_lfcs <- reverse_guides(joined_base_lfcs)
-  guide_residuals <- get_guide_residuals(reversed_base_lfcs)
+  guide_residuals <- get_guide_residuals(reversed_base_lfcs,
+                                         fit_controls = F)
   residuals_of_interest <- guide_residuals %>%
     filter(gene1 %in% c(geneA, geneB)) %>%
     mutate(target = if_else(control2, 'control',

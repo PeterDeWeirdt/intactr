@@ -1,0 +1,40 @@
+---
+title: "programmed_pair_example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{programmed_pair_example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5
+)
+```
+
+```{r setup}
+library(intactr)
+```
+
+## Calculate genetic interaction scores for a programmed pair library screened with Cas12a
+
+The data: 
+* 12 pre-selected gene pairs
+* Max 20 guides per gene
+* 25 olfactory receptor controls
+* Dual orientation
+* Three direct repeats
+* columns gene1, guide1 (guide1:DR), guide2 (guide2:DR), control1, control2
+
+```{r}
+knitr::kable(head(prog_pairs))
+```
+
+```{r}
+combo_scores <- calculate_anchor_residuals(prog_pairs, 60, fit_controls = T)
+```
+

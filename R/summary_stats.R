@@ -38,11 +38,13 @@ reverse_genes <- function(tidy_lfcs) {
 
 #' alphabetize gene combinations
 #'
-#' @param df any df with columns gene1 and gene2
+#' @param df any df with columns gene1, gene2, control1, control2
 alphabetize_combos <- function(df) {
   harmonized_df <- df %>%
     mutate(geneA = if_else(gene1 <= gene2, gene1, gene2),
            geneB = if_else(gene1 <= gene2, gene2, gene1),
+           controlA = if_else(gene1 <= gene2, control1, control2),
+           controlB = if_else(gene1 <= gene2, control2, control1),
            genes = paste(geneA, geneB, sep = ':'))
   return(harmonized_df)
 }
