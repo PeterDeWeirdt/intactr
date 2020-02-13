@@ -106,6 +106,5 @@ calculate_anchor_residuals <- function(lfc_df, n_guides = FALSE,
                                          fit_controls)
   guide_zs <- get_one_guide_z(guide_residuals, fit_controls)
   gene_zs <- get_two_gene_z(guide_zs, fit_controls)
-  gene_fdrs <- get_fdrs(gene_zs)
-  return(ungroup(gene_fdrs))
+  return(ungroup(gene_zs))
 }
