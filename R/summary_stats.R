@@ -8,7 +8,7 @@ reverse_guides <- function(base_lfcs) {
            temp_guide1 = guide2, temp_guide2 = guide1,
            temp_base_lfc1 = base_lfc2, temp_base_lfc2 = base_lfc1,
            temp_control1 = control2, temp_control2 = control1) %>%
-    select(-c('gene1', 'gene2', 'guide1', 'guide2', 'base_lfc1', 'base_lfc1',
+    select(-c('gene1', 'gene2', 'guide1', 'guide2', 'base_lfc1', 'base_lfc2',
               'control1', 'control2')) %>%
     rename(gene1 = temp_gene1, gene2 = temp_gene2,
            guide1 = temp_guide1, guide2 = temp_guide2,
