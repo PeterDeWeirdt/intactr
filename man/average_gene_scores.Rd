@@ -5,13 +5,15 @@
 \title{Summarize gene combinations by calculating the average lfc for a combo and the
 average lfc for each of gene on its own in a combo}
 \usage{
-average_gene_scores(lfc_df, n_guides = F)
+average_gene_scores(lfc_df, n_guides = F, standardize = F)
 }
 \arguments{
 \item{lfc_df}{data frame with the columns 'gene1', 'gene2', 'guide1',
 'guide2', 'control1', 'control2', ...}
 
 \item{n_guides}{how many guides are in each construct (for grouping controls)}
+
+\item{standardize}{whether to use controls to z-score log fold changes}
 }
 \description{
 Summarize gene combinations by calculating the average lfc for a combo and the

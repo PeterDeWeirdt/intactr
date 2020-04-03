@@ -76,13 +76,30 @@ get_gene_lfcs <- function(tidy_df) {
 #' @param lfc_df data frame with the columns 'gene1', 'gene2', 'guide1',
 #' 'guide2', 'control1', 'control2', ...
 #' @param n_guides how many guides are in each construct (for grouping controls)
+#' @param standardize whether to use controls to z-score log fold changes
 #' @export
-average_gene_scores <- function(lfc_df, n_guides = F) {
+average_gene_scores <- function(lfc_df, n_guides = F, standardize = F) {
   tidy_df <- preprocess_lfcs(lfc_df, n_guides)
+  if (standardize) {
+    ctl_ctl <- tidy_df %>%
+      filter(control1, control2)
+    ctl_stats <- ctl_ctl %>%
+      group_by(context) %>%
+      summarise(mean_lfc = mean(avg_lfc),
+                sd_lfc = sd(avg_lfc))
+    tidy_df <- tidy_df %>%
+      inner_join(ctl_stats) %>%
+      mutate(avg_lfc = (avg_lfc - mean_lfc)/sd_lfc) %>%
+      select(-mean_lfc, -sd_lfc)
+  }
   combo_lfcs <- get_combo_lfcs(tidy_df)
   gene_lfcs <- get_gene_lfcs(tidy_df)
   avg_gene_scores <- combo_lfcs %>%
     inner_join(gene_lfcs, by = c('geneA' = 'gene', 'context')) %>%
     inner_join(gene_lfcs, by = c('geneB' = 'gene', 'context'), suffix = c('A', 'B'))
+  if (standardize) {
+    avg_gene_scores <- avg_gene_scores %>%
+      rename(scaled_lfc = avg_lfc, scaled_lfcA = gene_lfcA, scale_lfcB = gene_lfcB)
+  }
   return(ungroup(avg_gene_scores))
 }
