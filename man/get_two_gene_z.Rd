@@ -4,10 +4,13 @@
 \alias{get_two_gene_z}
 \title{Calculate the gene level z-score from the guide level z-scores of residuals}
 \usage{
-get_two_gene_z(one_gene_z)
+get_two_gene_z(one_gene_z, fit_controls)
 }
 \arguments{
 \item{one_gene_z}{df from get_one_guide_z}
+
+\item{fit_controls}{if TRUE only use controls to generate a
+null distribution of residuals}
 }
 \description{
 Calculate the gene level z-score from the guide level z-scores of residuals

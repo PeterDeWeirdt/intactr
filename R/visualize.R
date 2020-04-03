@@ -11,9 +11,12 @@ theme_intactr <- function() {
 #' @param geneA first gene
 #' @param geneB second gene
 #' @param lfcs log-fold change matrix
+#' @param center_lfcs center log-fold changes using controls
+#' @param scale_lfcs divide log-fold changes by controls
 #' @import ggplot2
 #' @export
-plot_combo <- function(geneA, geneB, lfcs, n_guides = F) {
+plot_combo <- function(geneA, geneB, lfcs, n_guides = F, center_lfcs = F,
+                       scale_lfcs = F) {
   control_string <- 'ctl'
   filtered_lfcs <- lfcs %>%
     filter((gene1 %in% c(geneA, geneB) ) | (gene2 %in% c(geneA, geneB)) |
@@ -23,6 +26,16 @@ plot_combo <- function(geneA, geneB, lfcs, n_guides = F) {
     filter(control1,
            control2) %>%
     mutate(type = paste0(control_string, ':', control_string))
+  if (center_lfcs) {
+    ctl_mean <- control_controls %>%
+      group_by(context) %>%
+      summarise(mean_lfc = mean(avg_lfc))
+  }
+  if (scale_lfcs) {
+    ctl_sd <- control_controls %>%
+      group_by(context) %>%
+      summarise(sd_lfc = sd(avg_lfc))
+  }
   geneA_controls <- tidy_lfcs %>%
     filter((control1 & gene2 == geneA) |
              (control2 & gene1 == geneA)) %>%
@@ -44,6 +57,19 @@ plot_combo <- function(geneA, geneB, lfcs, n_guides = F) {
                                                  paste0(geneA, ':', control_string),
                                                  paste0(geneB, ':', control_string),
                                                  paste0(geneA, ':', geneB)))))
+  subtitle <- 'Avg. LFC'
+  if (center_lfcs) {
+    bound_lfcs <- bound_lfcs %>%
+      inner_join(ctl_mean) %>%
+      mutate(avg_lfc = avg_lfc - mean_lfc)
+    subtitle <- paste0(subtitle, ', mean centered')
+  }
+  if (scale_lfcs) {
+    bound_lfcs <- bound_lfcs %>%
+      inner_join(ctl_sd) %>%
+      mutate(avg_lfc = avg_lfc/sd_lfc)
+    subtitle <- paste0(subtitle, ', scaled')
+  }
   palette <- c('black','#b88637','#b84637', '#377eb8')
   p <- ggplot(bound_lfcs) +
     aes(x = type, y = avg_lfc) +
@@ -55,7 +81,9 @@ plot_combo <- function(geneA, geneB, lfcs, n_guides = F) {
           axis.ticks.x = element_blank(),
           legend.position = 'top') +
     xlab('') +
-    guides(color = guide_legend(nrow = 2))
+    ylab('') +
+    labs(title = paste(geneA, geneB, sep = ':'),
+         subtitle = subtitle)
   return(p)
 }
 

@@ -4,7 +4,7 @@
 \alias{plot_combo_residuals}
 \title{Visualize the residual plot for all of the guides for a pair of genes}
 \usage{
-plot_combo_residuals(geneA, geneB, lfcs, n_guides = F)
+plot_combo_residuals(geneA, geneB, lfcs, n_guides = F, fit_controls = F)
 }
 \arguments{
 \item{geneA}{first gene to plot}

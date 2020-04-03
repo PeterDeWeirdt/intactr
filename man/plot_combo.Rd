@@ -4,7 +4,7 @@
 \alias{plot_combo}
 \title{plot box plots with all constructs for a given combination}
 \usage{
-plot_combo(geneA, geneB, lfcs, n_guides = F)
+plot_combo(geneA, geneB, lfcs, n_guides = F, center_lfcs = F, scale_lfcs = F)
 }
 \arguments{
 \item{geneA}{first gene}
@@ -12,6 +12,10 @@ plot_combo(geneA, geneB, lfcs, n_guides = F)
 \item{geneB}{second gene}
 
 \item{lfcs}{log-fold change matrix}
+
+\item{center_lfcs}{center log-fold changes using controls}
+
+\item{scale_lfcs}{divide log-fold changes by controls}
 }
 \description{
 plot box plots with all constructs for a given combination

@@ -4,10 +4,13 @@
 \alias{get_one_guide_z}
 \title{Calculate the z-score of the residual of each guide pair}
 \usage{
-get_one_guide_z(residuals)
+get_one_guide_z(residuals, fit_controls)
 }
 \arguments{
 \item{residuals}{guide level residuals}
+
+\item{fit_controls}{if TRUE only use controls to generate a
+null distribution of residuals}
 }
 \description{
 Calculate the z-score of the residual of each guide pair

@@ -7,7 +7,7 @@
 alphabetize_combos(df)
 }
 \arguments{
-\item{df}{any df with columns gene1 and gene2}
+\item{df}{any df with columns gene1, gene2, control1, control2}
 }
 \description{
 alphabetize gene combinations

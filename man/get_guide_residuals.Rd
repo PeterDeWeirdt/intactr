@@ -4,9 +4,11 @@
 \alias{get_guide_residuals}
 \title{Calculate the residual for each guide}
 \usage{
-get_guide_residuals(rev_base_lfc)
+get_guide_residuals(rev_base_lfc, fit_controls)
 }
 \arguments{
+\item{fit_controls}{if TRUE only use controls to fit linear model}
+
 \item{dual_base_lfc}{df with every guide pair (guide2) for each guide (guide1)}
 }
 \description{

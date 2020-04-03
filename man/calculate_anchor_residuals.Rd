@@ -4,7 +4,7 @@
 \alias{calculate_anchor_residuals}
 \title{Calculate genetic interaction scores by treating each guide as an anchor}
 \usage{
-calculate_anchor_residuals(lfc_df, n_guides = FALSE)
+calculate_anchor_residuals(lfc_df, n_guides = FALSE, fit_controls = FALSE)
 }
 \arguments{
 \item{lfc_df}{data frame with the columns 'gene1', 'gene2', 'guide1',
@@ -12,6 +12,8 @@ calculate_anchor_residuals(lfc_df, n_guides = FALSE)
 
 \item{n_guides}{guides per gene if FALSE, then controls are not grouped into
 pseudogenes}
+
+\item{fit_controls}{if TRUE only use controls to fit linear model}
 }
 \description{
 Calculate genetic interaction scores by treating each guide as an anchor
