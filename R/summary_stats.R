@@ -64,7 +64,9 @@ get_combo_lfcs <- function(tidy_df) {
 #' @param tidy_df tidy lfcs
 get_gene_lfcs <- function(tidy_df) {
   reveresed_genes <- reverse_genes(tidy_df)
+  # Rewrite to take mean when paired with controls!
   gene_avg_lfcs <- reveresed_genes %>%
+    filter(control2) %>%
     group_by(gene1, context) %>%
     summarise(gene_lfc = mean(avg_lfc)) %>%
     rename(gene = gene1)
