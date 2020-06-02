@@ -51,7 +51,6 @@ plot_score_heatmap(combo_scores, 'combo_z_score')
 Our strongest hits include well known interactors as well as novel hits. 
 
 ```{r}
-
 plot_hit_network(combo_scores, 'combo_z_score', 5)
 ```
 

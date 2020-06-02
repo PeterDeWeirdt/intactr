@@ -84,7 +84,7 @@ plot_combo <- function(geneA, geneB, lfcs, n_guides = F, center_lfcs = F,
     ylab('') +
     labs(title = paste(geneA, geneB, sep = ':'),
          subtitle = subtitle)
-  return(p)
+  return(list(p = p, data = bound_lfcs))
 }
 
 #' return order tibble by hierarchical clustering
